@@ -205,7 +205,12 @@ Let's run some SQLs to verify the MySQL and MongoDB data sources:
   Splits: 17 total, 17 done (100.00%)
   [Latency: client-side: 0:01, server-side: 0:01] [4 rows, 0B] [5 rows/s, 0B/s]
   ```
-- Finally, join the tables from MySQL and MongoDB - federated query:
+- Finally, join the tables from MySQL and MongoDB - a federated query using this SQL:
+  ```
+  select A.id, A.author, B.book_name from mysql.presto_to_mysql.author A
+    join mongodb.presto_to_mongodb.book B on A.id=B.id order by A.id;
+  ```
+  Here are the results:
   ```
   presto> select A.id, A.author, B.book_name from mysql.presto_to_mysql.author A join mongodb.presto_to_mongodb.book B on A.id=B.id order by A.id;
    id |    author    |     book_name

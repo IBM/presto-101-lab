@@ -26,7 +26,7 @@ Create a docker network to be used by all of the containers, including the Prest
    ```
 2. Check the docker network named `presto_network` you just created:
    ```sh
-   docker network inpsect presto_network
+   docker network inspect presto_network
    ```
    You may see similar outputs like this:
    ```

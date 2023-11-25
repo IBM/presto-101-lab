@@ -25,7 +25,7 @@ Spin up an Apache Zeppelin container with the following command:
 docker run -d -p 8443:8080 --name zeppelin --net presto_network apache/zeppelin:0.10.0
 ```
 
-The command above starts up a container using the official Apache Zepplelin image and exposes
+The command above starts up a container using the official Apache Zeppelin image and exposes
 the dashboard on port 8443 of the host server.
 
 You can use the following command to check the container logs:
@@ -52,7 +52,7 @@ Thanks to the Presto JDBC Driver, you can easily integrate Apache Zeppelin with 
      ![zeppelin create](../images/zeppelin-create.png)
 
 1. Use **presto** for the `Interpreter Name`, meaning you need to use %presto as a directive
-   on the first line of a paragraph in a zeppelin notebook. Then select **jdbc** as the
+   on the first line of a paragraph in a Zeppelin notebook. Then select **jdbc** as the
    `Interpreter group`:
 
      ![zeppelin interpreter name](../images/zeppelin-interpreter-name.png)
@@ -84,7 +84,7 @@ Apache Zeppelin is a web-based notebook that enables data-driven, interactive da
 and collaborative documents with SQL, Scala, Python, R and more. Here, we just show you
 how easily to leverage Presto to run data analytics and visualization.
 
-1. Create a Zeppelin note by clicking the `Notebook` on the top nav menu and select `Create new note`:
+1. Create a Zeppelin note by clicking the `Notebook` on the top nav menu and selecting `Create new` note`:
 
      ![zeppeline note](../images/zeppelin-create-note.png)
 
@@ -92,7 +92,7 @@ how easily to leverage Presto to run data analytics and visualization.
 
      ![zeppelin note create](../images/zeppelin-note-name.png)
 
-1. Copy and paste the following SQL to the first paragraph in the note:
+1. Copy and paste the following SQL to the first paragraph of the note:
    ```
    use tpch.sf1; SELECT n.name, sum(l.extendedprice * (1 - l.discount)) AS revenue FROM "customer" AS c, "orders" AS o, "lineitem" AS l, "supplier" AS s, "nation" AS n, "region" AS r WHERE c.custkey = o.custkey AND l.orderkey = o.orderkey AND l.suppkey = s.suppkey AND c.nationkey = s.nationkey AND s.nationkey = n.nationkey AND n.regionkey = r.regionkey AND r.name = 'ASIA' AND o.orderdate >= DATE '1994-01-01' AND o.orderdate < DATE '1994-01-01' + INTERVAL '1' YEAR GROUP BY n.name ORDER BY revenue DESC;
    ```
