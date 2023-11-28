@@ -12,7 +12,7 @@ The goals of this workshop are:
 * What is Presto and why you’d use it
 * How to write a Presto query
 * How to create and deploy a Presto cluster on your machine using Docker
-* How to add 2 data sources (MySQL and MongoDB) and query them
+* How to add 2 data sources (MySQL and MongoDB) and query the data from them
 * How to create dashboards/visualizations of your data
 
 ### About this workshop
@@ -41,7 +41,6 @@ This workshop has been tested on the following platforms:
 
 * **Linux**: Ubuntu 22.04
 * **MacOS**
-* **Windows**
 
 ## Technology Used
 
@@ -49,6 +48,7 @@ This workshop has been tested on the following platforms:
 * [Presto](https://prestodb.io/): Fast and Reliable SQL Engine for Data Analytics and the Open Lakehouse
 * [MySQL](https://www.mysql.com/): A popular open-source relational database management system
 * [MongoDB](https://www.mongodb.com/): A document-oriented database
+* [Apache Zeppelin](https://zeppelin.apache.org/): Web-based notebook for interactive data analytics
 
 ## Credits
 

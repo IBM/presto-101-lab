@@ -36,6 +36,10 @@ docker logs -f zeppelin
 You can access [http://localhost:8443](http://localhost:8443) on a browser to access the
 dashboard, like this:
 
+!!! note
+    If you run the lab on a remote server, replace the `localhost` with the server's IP address.
+    For example `http://192.168.0.1:8443`
+
 ![zeppelin dashboard](../images/zeppelin-dashboard.png)
 
 ### Add Presto JDBC Driver

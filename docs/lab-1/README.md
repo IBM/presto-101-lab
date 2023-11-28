@@ -107,6 +107,10 @@ If the Presto server is up and running properly, the last lines of the outputs w
 
 You can check the Presto UI by opening a browser with this URL: [http://localhost:8080](http://localhost:8080)
 
+!!! note
+    If you run the lab on a remote server, replace the `localhost` with the server's IP address.
+    For example `http://192.168.0.1:8080`
+
 The page would look like this:
 ![presto ui](../images/presto-ui.png)
 
@@ -145,6 +149,11 @@ If the worker node is up and running properly, the last lines of the outputs wou
 ```
 
 Check the Presto UI again: [http://localhost:8080](http://localhost:8080). The number of active workers became `1`:
+
+!!! note
+    If you run the lab on a remote server, replace the `localhost` with the server's IP address.
+    For example `http://192.168.0.1:8080`
+
 ![presto ui 1worker](../images/presto-ui-1worker.png)
 
 ### 2.3 Worker Node - worker2
@@ -175,6 +184,11 @@ docker logs worker2 -f
 ```
 
 Check the Presto UI again: [http://localhost:8080](http://localhost:8080). The number of active workers became `2`:
+
+!!! note
+    If you run the lab on a remote server, replace the `localhost` with the server's IP address.
+    For example `http://192.168.0.1:8080`
+
 ![presto ui 2workers](../images/presto-ui-2workers.png)
 
 ### 2.4 Worker Node - worker3
@@ -208,6 +222,11 @@ docker logs worker3 -f
 
 You have successfully set up a Presto cluster with a coordinator and 3 worker nodes. Check the Presto UI again:
 [http://localhost:8080](http://localhost:8080).  The number of active workers became `3`:
+
+!!! note
+    If you run the lab on a remote server, replace the `localhost` with the server's IP address.
+    For example `http://192.168.0.1:8080`
+
 ![presto ui 3 workers](../images/presto-ui-3workers.png)
 
 Well done! Let's move to the next lab to set up data sources.

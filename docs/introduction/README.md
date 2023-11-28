@@ -4,11 +4,14 @@ A data lakehouse is a data platform, which merges the best aspects of data wareh
 management solution. If you are looking for an open-source solution for data lakehouse, Presto is the perfect choice.
 Presto is a fast and reliable SQL query engine for data analytics and the open lakehouse. It can be used in various
 use cases, like running interactive/ad hoc queries at sub-second performance for your high-volume apps, or lengthy ETL
-jobs that aggregate or join terabytes of data. Presto is designed to be adaptive, flexible, and extensible. The plugin
+jobs that aggregate or join terabytes of data.
+
+Presto is designed to be adaptive, flexible, and extensible. The plugin
 mechanism it provides allows you to connect to different data sources. A single Presto query can combine data from
 multiple sources, archiving analytics across your entire organization. Dozens of connectors are available from the
 Presto community today. You can see the high-level architecture diagram below:
-![presto diag](../images/diag-presto-main.svg)
+
+![presto diag](../images/diag-presto-main.png)
 
 
 ## Features of Presto

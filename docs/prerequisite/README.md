@@ -6,7 +6,7 @@ And it uses [Docker Compose](https://docs.docker.com/compose/) to run them all t
 Please follow the installation links below to set up your working environment:
 
 * [Docker](https://docs.docker.com/engine/install/)
-* [Docker Compose](https://docs.docker.com/desktop/install/linux-install/)
+* [Docker Compose](https://docs.docker.com/desktop/install/linux-install/) (Optional)
 
 
 ## Clone the workshop repository
