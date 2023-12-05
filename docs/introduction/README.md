@@ -46,3 +46,5 @@ In this workshop, you will use docker to spin up
 ![presto diag](../images/lab-architecture.png)
 
 Without further ado, let's get started.
+
+<img src="https://count.asgharlabs.io/count?p=/main_presto_101_page">
