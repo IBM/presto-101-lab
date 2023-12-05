@@ -48,7 +48,7 @@ Thanks to the Presto JDBC Driver, you can easily integrate Apache Zeppelin with 
 
 1. Click on the `anonymous` in the upper-right corner and select `interpreter` on the pop-up
    menu:
-   
+
      ![zeppelin intepreter](../images/zeppelin-intepreter.png)
 
 1. Create a new interpreter by clicking the `Create` button under the `anonymous`:
@@ -112,3 +112,7 @@ how easily to leverage Presto to run data analytics and visualization.
 1. You can select different built-in charts to visualize the results.
 
      ![zeppelin pie chart](../images/zeppelin-charts.png)
+
+
+<img src="https://count.asgharlabs.io/count?p=/lab4_presto_101_page">
+

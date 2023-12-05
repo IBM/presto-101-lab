@@ -230,3 +230,6 @@ You have successfully set up a Presto cluster with a coordinator and 3 worker no
 ![presto ui 3 workers](../images/presto-ui-3workers.png)
 
 Well done! Let's move to the next lab to set up data sources.
+
+<img src="https://count.asgharlabs.io/count?p=/lab1_presto_101_page">
+

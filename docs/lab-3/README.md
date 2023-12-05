@@ -32,7 +32,7 @@ presto>
     Since the `presto-cli` is executed inside the `coordinator` and `localhost:8080` is the default server,
     no need to specify the `--server` argument.
 
-Or run the `presto-cli` with a dedicated container and connect to the coordinator. 
+Or run the `presto-cli` with a dedicated container and connect to the coordinator.
 ```sh
 $ docker run --rm -ti -v ./conf/coordinator/config.properties:/opt/presto-server/etc/config.properties \
     -v ./conf/coordinator/jvm.config:/opt/presto-server/etc/jvm.config --net presto_network \
@@ -73,7 +73,7 @@ from the `./catalog` directory.
 - [tpcds](http://prestodb.io/docs/current/connector/tpcds.html): The TPCDS connector provides a set of schemas
   to support the TPC Benchmark™ DS (TPC-DS)
 - [tpch](http://prestodb.io/docs/current/connector/tpch.html): The TPCH connector provides a set of schemas to
-  support the TPC Benchmark™ H (TPC-H). 
+  support the TPC Benchmark™ H (TPC-H).
 
 
 ## 2. Add New Connectors
@@ -134,7 +134,7 @@ Splits: 53 total, 53 done (100.00%)
 presto>
 ```
 
-There are two new catalogs showed up in the results: `mysql` and `mongodb`. 
+There are two new catalogs showed up in the results: `mysql` and `mongodb`.
 
 ## 3. Federated Query
 
@@ -228,3 +228,6 @@ Let's run some SQLs to verify the MySQL and MongoDB data sources:
 
 You just used the unified SQL to query data from two different data sources and leverage the Presto SQL engine to perform a federated query
 that joins two data sets from two data sources.
+
+<img src="https://count.asgharlabs.io/count?p=/lab3_presto_101_page">
+
