@@ -92,7 +92,7 @@ connection-password=presto
 ```
 
 
-For the MongoDB, you can find the following content in the `./catalog-new/mongo.properties` file. It contains
+For the MongoDB, you can find the following content in the `./catalog-new/mongodb.properties` file. It contains
 the information about the MongoDB you set up earlier:
 
 ```
