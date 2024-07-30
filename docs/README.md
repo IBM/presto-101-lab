@@ -1,6 +1,6 @@
 # Introduction
 
-## Presto Workshop - Building an Open Data Lakehouse with Presto
+## Presto Workshop - Getting Started with Presto
 
 Welcome to our workshop! In this workshop, you’ll learn the basics of Presto, the open-source SQL query engine.
 You’ll get Presto running locally on your machine, connect data sources, and run some queries.
