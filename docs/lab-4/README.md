@@ -69,7 +69,7 @@ Thanks to the Presto JDBC Driver, you can easily integrate Apache Zeppelin with 
      ![zeppelin interpreter properties](../images/zeppelin-interpreter-properties.png)
 
 1. Scroll down to the `Dependencies` section and use the maven URI to point to the Presto
-   JDBC driver - **com.facebook.presto:presto-jdbc:0.284**. Click the `Save` button to
+   JDBC driver - **com.facebook.presto:presto-jdbc:0.290**. Click the `Save` button to
    save the settings.
 
      ![zeppelin interpreter artifact](../images/zeppelin-artifact.png)
