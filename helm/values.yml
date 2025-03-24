@@ -1,0 +1,28 @@
+# Deployment mode
+# single - Minimal Presto deployment where single pod acts as Coordinator and Worker
+# cluster - Standard Presto deployment with one Coordinator and multiple Workers
+# ha-cluster - Highly available Presto deployment with multiple Resource Managers, Coordinators and Workers
+mode: cluster
+
+# Worker configuration
+worker:
+  replicas: 3
+
+# Catalogs
+catalog:
+  jmx: |-
+    connector.name=jmx
+  memory: |-
+    connector.name=memory
+  tpch: |-
+    connector.name=tpch
+  tpcds: |-
+    connector.name=tpcds
+  mysql: |-
+    connector.name=mysql
+    connection-url=jdbc:mysql://presto-mysql:3306
+    connection-user=root
+    connection-password=presto
+  mongodb: |-
+    connector.name=mongodb
+    mongodb.seeds=presto-mongo:27017

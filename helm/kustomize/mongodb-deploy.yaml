@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: mongo
+    app: presto-mongo
+  name: presto-mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: presto-mongo
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: presto-mongo
+    spec:
+      containers:
+      - image: mongo:6.0.4
+        imagePullPolicy: IfNotPresent
+        name: mongo
+        ports:
+        - containerPort: 27017
+          name: mongo
+        securityContext:
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
+          runAsNonRoot: true
+          runAsUser: 999
+          runAsGroup: 999
+          capabilities:
+            drop:
+            - ALL
+        volumeMounts:
+        - mountPath: /data/db
+          name: mongo-pvc
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 999
+        fsGroupChangePolicy: OnRootMismatch
+      volumes:
+      - name: mongo-pvc
+        persistentVolumeClaim:
+          claimName: mongo-pvc

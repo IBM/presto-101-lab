@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - mysql-pvc.yaml
+  - mysql-deploy.yaml
+  - mysql-svc.yaml
+  - mongodb-pvc.yaml
+  - mongodb-deploy.yaml
+  - mongodb-svc.yaml

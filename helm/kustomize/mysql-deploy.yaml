@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: mysql
+    app: presto-mysql
+  name: presto-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: presto-mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: presto-mysql
+    spec:
+      containers:
+      - image: mysql
+        imagePullPolicy: IfNotPresent
+        name: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "presto"
+        ports:
+        - containerPort: 3306
+          name: mysql
+        securityContext:
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
+          runAsNonRoot: true
+          runAsUser: 999
+          runAsGroup: 999
+          capabilities:
+            drop:
+            - ALL
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mysql-pvc
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 999
+        fsGroupChangePolicy: OnRootMismatch
+      serviceAccount: my-presto
+      serviceAccountName: my-presto
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: mysql-pvc
+        persistentVolumeClaim:
+          claimName: mysql-pvc

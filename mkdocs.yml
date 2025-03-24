@@ -20,6 +20,7 @@ nav:
     - Lab 3. Add Catalogs: lab-3/README.md
     - Lab 4. Data Visualization : lab-4/README.md
   - References:
+    - Helm: resources/HEML.md
     - Additional Resources: resources/RESOURCES.md
     - Contributors: resources/CONTRIBUTORS.md
 
