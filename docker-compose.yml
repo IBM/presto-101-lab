@@ -1,0 +1,96 @@
+networks:
+  presto-network:
+    # driver: bridge
+
+services:
+  coordinator:
+    container_name: coordinator
+    hostname: coordinator
+    image: prestodb/presto
+    ports:
+      - 8080:8080
+    volumes:
+      - ./conf/coordinator/config.properties:/opt/presto-server/etc/config.properties
+      - ./conf/common/resource-groups.properties:/opt/presto-server/etc/resource-groups.properties
+      - ./conf/common/resource-groups.json:/opt/presto-server/etc/resource-groups.json
+      - ./conf/coordinator/jvm.config:/opt/presto-server/etc/jvm.config
+      - ./catalog:/opt/presto-server/etc/catalog
+    networks:
+      - presto-network
+
+  worker1:
+    container_name: worker1
+    hostname: worker1
+    image: prestodb/presto
+    volumes:
+      - ./conf/worker1/config.properties:/opt/presto-server/etc/config.properties
+      - ./conf/common/resource-groups.properties:/opt/presto-server/etc/resource-groups.properties
+      - ./conf/common/resource-groups.json:/opt/presto-server/etc/resource-groups.json
+      - ./conf/worker1/jvm.config:/opt/presto-server/etc/jvm.config
+      - ./catalog:/opt/presto-server/etc/catalog
+    networks:
+      - presto-network
+
+  worker2:
+    container_name: worker2
+    hostname: worker2
+    image: prestodb/presto
+    volumes:
+      - ./conf/worker2/config.properties:/opt/presto-server/etc/config.properties
+      - ./conf/common/resource-groups.properties:/opt/presto-server/etc/resource-groups.properties
+      - ./conf/common/resource-groups.json:/opt/presto-server/etc/resource-groups.json
+      - ./conf/worker2/jvm.config:/opt/presto-server/etc/jvm.config
+      - ./catalog:/opt/presto-server/etc/catalog
+    networks:
+      - presto-network
+
+  worker3:
+    container_name: worker3
+    hostname: worker3
+    image: prestodb/presto
+    volumes:
+      - ./conf/worker3/config.properties:/opt/presto-server/etc/config.properties
+      - ./conf/common/resource-groups.properties:/opt/presto-server/etc/resource-groups.properties
+      - ./conf/common/resource-groups.json:/opt/presto-server/etc/resource-groups.json
+      - ./conf/worker3/jvm.config:/opt/presto-server/etc/jvm.config
+      - ./catalog:/opt/presto-server/etc/catalog
+    networks:
+      - presto-network
+
+
+  presto-mysql:
+    image: mysql
+    hostname: presto-mysql
+    container_name: presto-mysql
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: presto
+    networks:
+      - presto-network
+
+  presto-mongo:
+    image: mongo:6.0.4
+    hostname: presto-mongo
+    container_name: presto-mongo
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      DB_HOSTNAME: mysql
+    networks:
+      - presto-network
+
+  zeppelin:
+    image: apache/zeppelin:0.10.0
+    hostname: zeppelin
+    container_name: zeppelin
+    ports:
+      - 8443:8080
+    volumes:
+      - ./conf/zeppelin:/opt/zeppelin/conf
+    networks:
+      - presto-network
+
+volumes:
+  mysql-data:
+  mongo-data:

@@ -23,12 +23,14 @@ const parser = parse({delimiter: ',', from_line: 2}, function(err, data){
       host: ip,
       username: user,
       port: Number.parseInt(port),
-      privateKey: key
+      privateKey: key,
+      readyTimeout: 200000
     });
 
     console.log(`connected host: ${ip}`);
-    await ssh.execCommand("docker stop $(docker ps -a -q)");
-    await ssh.execCommand("docker rm $(docker ps -a -q)");
+    //await ssh.execCommand("docker stop $(docker ps -a -q)");
+    //await ssh.execCommand("docker rm $(docker ps -a -q)");
+    await ssh.execCommand("cd presto-iceberg-lab/conf && docker compose down -v");
     console.log('stopped and removed all containers');
 
     ssh.dispose();
