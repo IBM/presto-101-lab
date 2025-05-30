@@ -107,6 +107,3 @@ mysql: [Warning] Using a password on the command line interface can be insecure.
 
 Now the 2 data sources are ready for use. Let's move to the next section to connect the Presto cluster to
 these data sources.
-
-<img src="https://count.asgharlabs.io/count?p=/lab2_presto_101_page">
-

@@ -113,6 +113,3 @@ how easily to leverage Presto to run data analytics and visualization.
 
      ![zeppelin pie chart](../images/zeppelin-charts.png)
 
-
-<img src="https://count.asgharlabs.io/count?p=/lab4_presto_101_page">
-

@@ -228,6 +228,3 @@ Let's run some SQLs to verify the MySQL and MongoDB data sources:
 
 You just used the unified SQL to query data from two different data sources and leverage the Presto SQL engine to perform a federated query
 that joins two data sets from two data sources.
-
-<img src="https://count.asgharlabs.io/count?p=/lab3_presto_101_page">
-
