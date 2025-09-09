@@ -9,14 +9,9 @@ This section is comprised of the following steps:
 
 ## 1. MongoDB
 
-Use the following command to start a MongoDB:
-```sh
-docker run -d --net presto_network --name presto-mongo mongo:6.0.4
-```
-
 You can use the following command to check the logs of the MongoDB:
 ```sh
-docker logs presto-mongo -f
+docker logs presto-mongo -n 100
 ```
 
 The MongoDB is up and ready when you see the following messages:
@@ -65,14 +60,9 @@ presto_to_mongodb> [
 
 ## 2. MySQL
 
-Use the following command to start a MySQL server:
-```sh
-docker run --net presto_network --name presto-mysql -e MYSQL_ROOT_PASSWORD=presto -d mysql
-```
-
 You can use the following command to check the logs of the MySQL server:
 ```sh
-docker logs presto-mysql -f
+docker logs presto-mysql -n 100
 ```
 
 The MySQL server is up and ready when you see the following message from the logs:
@@ -105,5 +95,5 @@ mysql: [Warning] Using a password on the command line interface can be insecure.
 +------+--------------+
 ```
 
-Now the 2 data sources are ready for use. Let's move to the next section to connect the Presto cluster to
-these data sources.
+Now the 2 data sources are ready for use. Let's move to the next section to understand how Presto connects to
+these 2 data sources.

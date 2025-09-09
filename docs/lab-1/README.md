@@ -4,78 +4,39 @@ In this section, you will:
 - Create a docker network to connect all containers that you are going to create
 - Set up a Presto cluster including
   - A coordinator node
-  - 3 workers node
+  - 3 worker nodes
 
 This section is comprised of the following steps:
 
-1. [Create a docker network](#1-create-docker-network)
-2. [Create a Presto cluster](#2-set-up-presto-cluster) including:
-   - [A coordinator node](#21-presto-coordinator)
-   - 3 worker nodes
-     - [worker1](#22-worker-node---worker1)
-     - [worker2](#23-worker-node---worker2)
-     - [worker3](#24-worker-node---worker3)
-3. [Check Presto UI](#3-access-the-presto-ui-on-the-coordinator)
+1. [Create a Presto cluster](#1-create-a-presto-cluster) including:
+     - [A coordinator node](#21-presto-coordinator)
+     - 3 worker nodes
+         - [worker1](#22-worker-node-worker1)
+         - [worker2](#23-worker-node-worker2)
+         - [worker3](#24-worker-node-worker3)
+1. [Check Presto UI](#3-access-the-presto-ui-on-the-coordinator)
 
-## 1. Create Docker Network
-Create a docker network to be used by all of the containers, including the Presto cluster, MySQL, and MongoDB.
-
-1. Open a terminal locally and run the following command:
-   ```sh
-   docker network create presto_network
-   ```
-2. Check the docker network named `presto_network` you just created:
-   ```sh
-   docker network inspect presto_network
-   ```
-   You may see similar outputs like this:
-   ```
-   $ docker network inspect presto_network
-   [
-       {
-           "Name": "presto_network",
-           "Id": "d159756217770cb1230ee87e5006d2a63cd14b69d28eec6451856ead030ed870",
-           "Created": "2023-11-09T11:39:23.874064549-08:00",
-           "Scope": "local",
-           "Driver": "bridge",
-           "EnableIPv6": false,
-           "IPAM": {
-               "Driver": "default",
-               "Options": {},
-               "Config": [
-                   {
-                       "Subnet": "172.19.0.0/16",
-                       "Gateway": "172.19.0.1"
-                   }
-               ]
-           },
-           "Internal": false,
-           "Attachable": false,
-           "Ingress": false,
-           "ConfigFrom": {
-               "Network": ""
-           },
-           "ConfigOnly": false,
-           "Containers": {},
-           "Options": {},
-           "Labels": {}
-       }
-   ]
-   ```
-
-   This means you have created a docker network and it will be used by the Presto servers that we are going to create.
-
-## 2. Set Up Presto Cluster
-
-### 2.1 Presto Coordinator
-Bring up a Presto server as a coordinator by using the following command:
+## 1. Create a Presto cluster
+Run the following command to bring up a Presto cluster which has 1 coordinator node and 3 worker nodes
 ```sh
-docker run -d -p 8080:8080 -v ./conf/coordinator/config.properties:/opt/presto-server/etc/config.properties \
-    -v ./conf/coordinator/jvm.config:/opt/presto-server/etc/jvm.config -v ./catalog:/opt/presto-server/etc/catalog \
-    --net presto_network --name coordinator prestodb/presto:latest
+docker compose up -d
+```
+The command pulls the latest `prestodb/presto` image and other images needed in the `./docker-compose.yml` Docker Compose file.
+
+You would see the outputs similar to the following:
+```
+[+] Running 7/7
+ ✔ Container zeppelin      Running                                0.0s
+ ✔ Container worker3       Running                                0.0s
+ ✔ Container presto-mysql  Running                                0.0s
+ ✔ Container worker1       Running                                0.0s
+ ✔ Container presto-mongo  Running                                0.0s
+ ✔ Container worker2       Running                                0.0s
+ ✔ Container coordinator   Running                                0.0s
 ```
 
-This command starts a container named `coordinator` using the [prestodb/presto:latest](https://hub.docker.com/layers/prestodb/presto/latest/images/sha256-9663cb926599f6ceaef64cbc6a28226bab97abf7742e3d79c2bb3eeb34ea69ac) image with the `config.properties` and `jvm.config` configurations under the `config/coordinator` directory along with the catalog settings in the `./catalog` directory. For the catalog settings, we will cover that in the `lab-3``.
+### 2.1 Presto Coordinator
+The coordinator is running in a container named `coordinator` using the `prestodb/presto:latest` image with the `config.properties` and `jvm.config` configurations under the `config/coordinator` directory along with the catalog settings in the `./catalog` directory.
 
 Here are the settings for the coordinator:
 ```text
@@ -95,7 +56,7 @@ discovery.uri=http://localhost:8080
 
 You can use the following command to check the logs of the coordinator:
 ```sh
-docker logs coordinator -f
+docker logs coordinator -n 100
 ```
 
 If the Presto server is up and running properly, the last lines of the outputs would like the following:
@@ -116,14 +77,7 @@ The page would look like this:
 
 
 ### 2.2 Worker Node - worker1
-Start a worker node named `worker1` using the following command:
-```sh
-docker run -d -p 8081:8081 -v ./conf/worker1/config.properties:/opt/presto-server/etc/config.properties \
-    -v ./conf/worker1/jvm.config:/opt/presto-server/etc/jvm.config -v ./catalog:/opt/presto-server/etc/catalog \
-    --net presto_network --name worker1 prestodb/presto:latest
-```
-
-This command kicks off a worker node named `worker1` and uses the configurations under the `conf/worker1` directory with the following settings:
+The 1st worker node is named `worker1` and using the configurations under the `conf/worker1` directory with the following settings:
 
 ```
 coordinator=false
@@ -138,7 +92,7 @@ discovery.uri=http://coordinator:8080
 
 You can use the following command to check the logs of the first worker node:
 ```sh
-docker logs worker1 -f
+docker logs worker1 -n 100
 ```
 
 If the worker node is up and running properly, the last lines of the outputs would like the following:
@@ -157,14 +111,7 @@ Check the Presto UI again: [http://localhost:8080](http://localhost:8080). The n
 ![presto ui 1worker](../images/presto-ui-1worker.png)
 
 ### 2.3 Worker Node - worker2
-Start the second worker node named `worker2` using the following command:
-```sh
-docker run -d -p 8082:8082 -v ./conf/worker2/config.properties:/opt/presto-server/etc/config.properties \
-    -v ./conf/worker2/jvm.config:/opt/presto-server/etc/jvm.config -v ./catalog:/opt/presto-server/etc/catalog \
-    --net presto_network --name worker2 prestodb/presto:latest
-```
-
-This command kicks off a worker node named `worker2` and uses the configurations under the `conf/worker2` directory with the following settings:
+The 2nd worker node is named `worker2` and using the configurations under the `conf/worker2` directory with the following settings:
 
 ```
 coordinator=false
@@ -180,7 +127,7 @@ The settings are almost the same as `worker1, except for the port number:
 
 You can use the following command to check the logs of the first worker node:
 ```sh
-docker logs worker2 -f
+docker logs worker2 -n 100
 ```
 
 Check the Presto UI again: [http://localhost:8080](http://localhost:8080). The number of active workers became `2`:
@@ -192,14 +139,7 @@ Check the Presto UI again: [http://localhost:8080](http://localhost:8080). The n
 ![presto ui 2workers](../images/presto-ui-2workers.png)
 
 ### 2.4 Worker Node - worker3
-Start the third worker node named `worker3` using the following command:
-```sh
-docker run -d -p 8083:8083 -v ./conf/worker3/config.properties:/opt/presto-server/etc/config.properties \
-    -v ./conf/worker3/jvm.config:/opt/presto-server/etc/jvm.config -v ./catalog:/opt/presto-server/etc/catalog \
-    --net presto_network --name worker3 prestodb/presto:latest
-```
-
-This command kicks off a worker node named `worker3` and uses the configurations under the `conf/worker3` directory with the following settings:
+The 3rd of the worker node is named `worker3` and using the configurations under the `conf/worker3` directory with the following settings:
 
 ```
 coordinator=false
@@ -215,7 +155,7 @@ The settings are almost the same as `worker1` and `worker2`, except the port num
 
 You can use the following command to check the logs of the first worker node:
 ```sh
-docker logs worker3 -f
+docker logs worker3 -n 100
 ```
 
 ## 3. Access the Presto UI on the Coordinator

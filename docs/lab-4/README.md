@@ -30,7 +30,7 @@ the dashboard on port 8443 of the host server.
 
 You can use the following command to check the container logs:
 ```sh
-docker logs -f zeppelin
+docker logs -n 100 zeppelin
 ```
 
 You can access [http://localhost:8443](http://localhost:8443) on a browser to access the

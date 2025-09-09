@@ -46,8 +46,6 @@ spec:
       securityContext:
         fsGroup: 999
         fsGroupChangePolicy: OnRootMismatch
-      serviceAccount: my-presto
-      serviceAccountName: my-presto
       terminationGracePeriodSeconds: 30
       volumes:
       - name: mysql-pvc

@@ -17,7 +17,7 @@ nav:
     - Introduction: introduction/README.md
     - Lab 1. Set up Presto: lab-1/README.md
     - Lab 2. Data Sources: lab-2/README.md
-    - Lab 3. Add Catalogs: lab-3/README.md
+    - Lab 3. Federated Query: lab-3/README.md
     - Lab 4. Data Visualization : lab-4/README.md
   - References:
     - Helm: resources/HEML.md
@@ -85,7 +85,7 @@ markdown_extensions:
   - pymdownx.critic
   - pymdownx.details
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
   - pymdownx.highlight:
       anchor_linenums: true

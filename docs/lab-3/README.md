@@ -8,7 +8,7 @@ cluster.
 This section is comprised of the following steps:
 
 1. [Data Source Connectors](#1-data-source-connectors)
-1. [Add MySQL and MongoDB Connectors](#2-add-new-connectors)
+1. [MySQL and MongoDB Connectors](#2-mysql-and-mongodb-connectors)
 1. [Federated Query](#3-federated-query)
 
 ## 1. Data Source Connectors
@@ -24,7 +24,11 @@ to do this:
 
 Run the `presto-cli` inside the coordinator container
 ```sh
-$ docker exec -ti coordinator /opt/presto-cli
+docker exec -ti coordinator /opt/presto-cli
+```
+
+You see the Presto CLI prompt like this:
+```
 presto>
 ```
 
@@ -41,18 +45,23 @@ presto>
 ```
 
 After you run the command after the shell prompt, the dollar sign, you should get the `presto>` CLI prompt. Then you can run
-this SQL - `show catalogs` to get currently configured catalogs:
-
+this SQL -
+```sql
+show catalogs;
+```
+to get currently configured catalogs:
 ```
 presto> show catalogs;
  Catalog
 ---------
  jmx
  memory
+ mongodb
+ mysql
  system
  tpcds
  tpch
-(5 rows)
+(7 rows)
 
 Query 20231115_045608_00002_xuury, FINISHED, 3 nodes
 Splits: 53 total, 53 done (100.00%)
@@ -76,12 +85,12 @@ from the `./catalog` directory.
   support the TPC Benchmark™ H (TPC-H).
 
 
-## 2. Add New Connectors
+## 2. MySQL and MongoDB Connectors
 
 Adding new catalogs to Presto servers is quite simple. You just need to create the corresponding property file under
 `<presto-root>/etc/catalog` directory and provide the data source information in the property file.
 
-For the MySQL database, you can find the following content in the `./catalog-new/mysql.properties` file. It contains
+For the MySQL database, you can find the following content in the `./catalog/mysql.properties` file. It contains
 the information about the MySQL database you set up earlier.
 
 ```
@@ -92,7 +101,7 @@ connection-password=presto
 ```
 
 
-For the MongoDB, you can find the following content in the `./catalog-new/mongodb.properties` file. It contains
+For the MongoDB, you can find the following content in the `./catalog/mongodb.properties` file. It contains
 the information about the MongoDB you set up earlier:
 
 ```
@@ -100,49 +109,17 @@ connector.name=mongodb
 mongodb.seeds=presto-mongo:27017
 ```
 
-To apply these two new catalog property files, you just need to copy them to the `./catalog` directory and restart the
-`coordinator`, `worker1`, `worker2`, and `worker3` containers:
-
-```sh
-cp ./catalog-new/* ./catalog/
-docker restart coordinator worker1 worker2 worker3
-```
-
-This will restart all four containers sequentially. When the command finishes, you can run the Presto CLI to verify the
-new data sources.
-
-```sh
-$ docker run --rm -ti -v ./conf/coordinator/config.properties:/opt/presto-server/etc/config.properties \
-  -v ./conf/coordinator/jvm.config:/opt/presto-server/etc/jvm.config --net presto_network \
-  --entrypoint /opt/presto-cli prestodb/presto:latest --server coordinator:8080
-presto> show catalogs;
- Catalog
----------
- jmx
- memory
- mongodb
- mysql
- system
- tpcds
- tpch
-(7 rows)
-
-Query 20231115_054047_00000_hwb7z, FINISHED, 3 nodes
-Splits: 53 total, 53 done (100.00%)
-[Latency: client-side: 0:02, server-side: 0:02] [0 rows, 0B] [0 rows/s, 0B/s]
-
-presto>
-```
-
-There are two new catalogs showed up in the results: `mysql` and `mongodb`.
-
 ## 3. Federated Query
 
 Let's run some SQLs to verify the MySQL and MongoDB data sources:
 
 - List the schemas in the MongoDB:
+  ```sql
+  show schemas in mongodb;
   ```
-  presto> show schemas in mongodb;
+  Outputs:
+  ```
+   presto> show schemas in mongodb;
          Schema
   --------------------
    admin
@@ -157,6 +134,10 @@ Let's run some SQLs to verify the MySQL and MongoDB data sources:
   [Latency: client-side: 0:01, server-side: 0:01] [5 rows, 76B] [6 rows/s, 105B/s]
   ```
 - Show all records in the `book` document from MongoDB:
+  ```sql
+  select * from mongodb.presto_to_mongodb.book;
+  ```
+  Outputs:
   ```
   presto> select * from mongodb.presto_to_mongodb.book;
    id |     book_name
@@ -176,6 +157,10 @@ Let's run some SQLs to verify the MySQL and MongoDB data sources:
     and use `presto_to_mongodb` as the default schema. Then use `book` in the SQL instead of
     `mongodb.presto_to_mangodb.book`.
 - List the schemas in MySQL:
+  ```sql
+  show schemas in mysql;
+  ```
+  Outputs:
   ```
   presto> show schemas in mysql;
          Schema
@@ -191,6 +176,10 @@ Let's run some SQLs to verify the MySQL and MongoDB data sources:
   [Latency: client-side: 0:01, server-side: 0:01] [4 rows, 74B] [4 rows/s, 82B/s]
   ```
 - Show all records in the `author` table from MySQL:
+  ```sql
+  select * from mysql.presto_to_mysql.author;
+  ```
+  Outputs:
   ```
   presto> select * from mysql.presto_to_mysql.author;
    id |    author
@@ -206,7 +195,7 @@ Let's run some SQLs to verify the MySQL and MongoDB data sources:
   [Latency: client-side: 0:01, server-side: 0:01] [4 rows, 0B] [5 rows/s, 0B/s]
   ```
 - Finally, join the tables from MySQL and MongoDB - a federated query using this SQL:
-  ```
+  ```sql
   select A.id, A.author, B.book_name from mysql.presto_to_mysql.author A
     join mongodb.presto_to_mongodb.book B on A.id=B.id order by A.id;
   ```

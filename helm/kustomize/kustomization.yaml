@@ -7,3 +7,4 @@ resources:
   - mongodb-pvc.yaml
   - mongodb-deploy.yaml
   - mongodb-svc.yaml
+  - presto-sa.yaml

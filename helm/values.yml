@@ -4,6 +4,10 @@
 # ha-cluster - Highly available Presto deployment with multiple Resource Managers, Coordinators and Workers
 mode: cluster
 
+serviceAccount:
+  create: false
+  name: presto-sa
+
 # Worker configuration
 worker:
   replicas: 3
