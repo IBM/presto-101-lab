@@ -40,3 +40,9 @@ Deploy more workers.
 - For instance base deployment, create or allocate a new instance, deploy Presto, add the worker node to the Presto cluster
 - For Kubernetes base deployment, increase the replicate number of worker deployment.
 - For cloud base deployment, check the service document and scale up.
+
+## Presto on Spark
+
+- Great for large batch ETL workload because of the paralelism.
+- A robust and scalable execution platform
+- Get benefits from both Apache Spark and Presto
