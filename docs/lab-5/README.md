@@ -1,4 +1,4 @@
-# Helm
+# Presto Helm Charts
 
 ## Use Helm to Deply a Presto Cluster
 The Presto community also provides the helm chart to install Presto cluster on a
@@ -26,8 +26,17 @@ kind create cluster -n presto
 
     Helm chart repository is a location where packaged charts can be stored and shared.
     Use the following command to add Presto charts repository to Helm client configuration:
-    ```
+    ```sh
     helm repo add presto https://prestodb.github.io/presto-helm-charts
+    ```
+    List the latest stable versions of available Helm charts with the command:
+    ```sh
+    helm search repo presto
+    ```
+    Sample outputs:
+    ```
+    NAME            CHART VERSION   APP VERSION     DESCRIPTION
+    presto/presto   0.4.0           0.291           The official Helm chart for Presto
     ```
 
 2. Create a namespace for the Presto cluster
@@ -76,3 +85,24 @@ kind create cluster -n presto
     ```
     helm install presto presto/presto -f helm/values.yml -n presto
     ```
+    See the refernece of the values.yml [here](https://github.com/prestodb/presto-helm-charts/blob/main/charts/presto/values.yaml)
+
+    Wait for a while for the Presto pods, including coordinator and workers, to be ready:
+    ```
+    NAME                                  READY   STATUS    RESTARTS   AGE
+    presto-coordinator-68dff7c554-9dxbw   1/1     Running   0          20h
+    presto-mongo-846c4ff7c5-j5thm         1/1     Running   0          20h
+    presto-mysql-765d566f59-jtqtg         1/1     Running   0          20h
+    presto-worker-9f99c6d69-d4djp         1/1     Running   0          20h
+    presto-worker-9f99c6d69-hnxqx         1/1     Running   0          20h
+    presto-worker-9f99c6d69-thslm         1/1     Running   0          20h
+    ```
+    The configuration would bring up 1 coordinator and 3 workers pods.
+
+7. Access the Presto UI
+
+    Run the following command to port-forward the port `8080` of the `presto` service:
+    ```sh
+    kubectl port-forward svc/presto --address 0.0.0.0 8080:08080
+    ```
+    Then you can access the Presto UI at `http://localhost:808`
