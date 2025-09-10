@@ -86,8 +86,6 @@ services:
     container_name: zeppelin
     ports:
       - 8443:8080
-    volumes:
-      - ./conf/zeppelin:/opt/zeppelin/conf
     networks:
       - presto-network
 
