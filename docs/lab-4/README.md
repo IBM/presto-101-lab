@@ -20,14 +20,6 @@ This section is comprised of the following steps:
 
 ### Use the Offical Docker Image
 
-Spin up an Apache Zeppelin container with the following command:
-```sh
-docker run -d -p 8443:8080 --name zeppelin --net presto_network apache/zeppelin:0.10.0
-```
-
-The command above starts up a container using the official Apache Zeppelin image and exposes
-the dashboard on port 8443 of the host server.
-
 You can use the following command to check the container logs:
 ```sh
 docker logs -n 100 zeppelin
