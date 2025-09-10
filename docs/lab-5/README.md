@@ -103,6 +103,6 @@ kind create cluster -n presto
 
     Run the following command to port-forward the port `8080` of the `presto` service:
     ```sh
-    kubectl port-forward svc/presto --address 0.0.0.0 8080:08080
+    kubectl port-forward -n presto svc/presto --address 0.0.0.0 8080:08080
     ```
     Then you can access the Presto UI at `http://localhost:808`
